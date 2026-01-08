@@ -81,6 +81,15 @@ export function SimpleTaxForm() {
                             </span>
                         </div>
                     </div>
+
+                    <div className="space-y-1 text-center">
+                        <p className="text-xs text-gray-500 italic">
+                            * Does not include TDS (1%) potentially deducted by exchanges.
+                        </p>
+                        <p className="text-xs text-gray-500 italic">
+                            * Illustrative calculation only. Consult a CA for final filing.
+                        </p>
+                    </div>
                 </CardContent>
             </Card>
         </div>

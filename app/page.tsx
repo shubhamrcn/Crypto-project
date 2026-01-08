@@ -1,11 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { SimpleTaxForm } from "@/components/basic-calculator/simple-form";
 import { TaxRulesGrid } from "@/components/tax-rules/rules-grid";
 import { FAQSection } from "@/components/tax-rules/faq-section";
 import { ShootingStars } from "@/components/ui/shooting-stars";
 import { FloatingShapes } from "@/components/ui/floating-shapes/floating-shapes";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 50, scale: 0.95 },
@@ -34,6 +36,9 @@ const staggerContainer = {
 };
 
 export default function Home() {
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 100], [1, 0]);
+
   return (
     <main className="min-h-screen bg-[#0B0C10] relative overflow-x-hidden selection:bg-primary/30 scroll-smooth">
 
@@ -61,6 +66,15 @@ export default function Home() {
         <ShootingStars />
       </div>
 
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-6 pointer-events-none">
+        <span className="text-white font-bold text-xl pointer-events-auto font-space-grotesk tracking-wider">DeFi Tax</span>
+        <Link href="/dashboard" className="pointer-events-auto">
+          <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 font-medium shadow-[0_0_15px_rgba(139,92,246,0.5)]">
+            Launch App
+          </Button>
+        </Link>
+      </nav>
+
       <div className="relative z-10 container mx-auto px-4 py-12 md:py-20 space-y-32">
 
         {/* Section 1: Hero / Calculator */}
@@ -73,8 +87,7 @@ export default function Home() {
           <SimpleTaxForm />
 
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            style={{ opacity }}
             transition={{ delay: 1, duration: 1 }}
             className="absolute bottom-10 animate-bounce text-gray-500"
           >
@@ -121,8 +134,22 @@ export default function Home() {
         </motion.section>
 
         {/* Footer */}
-        <footer className="text-center text-gray-600 text-sm pb-8">
-          <p>Built for the decentralized future.</p>
+        <footer className="text-center text-gray-600 text-xs pb-16 max-w-2xl mx-auto leading-relaxed space-y-6">
+          <div className="flex justify-center gap-6 font-mono">
+            <Link href="/manifesto" className="hover:text-primary transition-colors hover:underline underline-offset-4">
+              Why This Exists
+            </Link>
+            <span className="text-gray-800">|</span>
+            <Link href="/learn/defi-flows" className="hover:text-primary transition-colors hover:underline underline-offset-4">
+              Visualizing Tax Traps
+            </Link>
+          </div>
+          <p>
+            Built for the decentralized future. <br />
+            <span className="opacity-70">
+              This tool provides educational and computational assistance only and does not constitute legal or tax advice.
+            </span>
+          </p>
         </footer>
 
       </div>
