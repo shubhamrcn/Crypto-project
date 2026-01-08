@@ -14,7 +14,7 @@ const fadeInUp = {
     y: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 20,
       duration: 0.8
@@ -91,10 +91,10 @@ export default function Home() {
           className="max-w-4xl mx-auto text-center space-y-8"
         >
           <h2 className="text-5xl md:text-6xl font-space-grotesk font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 leading-tight">
-            Crypto Tax Rules India <span className="text-primary drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">2025</span>
+            Crypto Tax Rules India <span className="text-primary drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">2026</span>
           </h2>
           <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            As digital assets grow, clarity is key. Understand the <span className="text-white font-medium">30% tax</span>, <span className="text-white font-medium">1% TDS</span>, and <span className="text-white font-medium">zero-offset</span> policies that defined the 2025 fiscal landscape.
+            As digital assets grow, clarity is key. Understand the <span className="text-white font-medium">30% tax</span>, <span className="text-white font-medium">1% TDS</span>, and <span className="text-white font-medium">zero-offset</span> policies that defined the 2026 fiscal landscape.
           </p>
         </motion.section>
 

@@ -9,7 +9,7 @@ import {
 
 const faqs = [
     {
-        question: "What is the tax rate on crypto in 2025?",
+        question: "What is the tax rate on crypto in 2026?",
         answer: "Crypto profits are taxed at a flat 30% rate in India, with absolutely no exemptions for income levels or long-term holdings."
     },
     {
