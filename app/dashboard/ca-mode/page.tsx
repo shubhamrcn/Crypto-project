@@ -84,7 +84,7 @@ export default function CAModePage() {
                     <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-mono text-gray-400 uppercase">Assessment Summary</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow className="border-gray-800 hover:bg-transparent">

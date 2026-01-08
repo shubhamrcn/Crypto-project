@@ -96,7 +96,7 @@ export default function Dashboard() {
         <TooltipProvider>
             <div className="min-h-screen bg-[#0B0C10] text-gray-100 p-8">
                 <div className="max-w-7xl mx-auto space-y-8">
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div>
                             <h1 className="text-3xl font-bold font-space-grotesk text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
                                 Your Private Tax Vault
@@ -105,22 +105,22 @@ export default function Dashboard() {
                                 Privacy-First. Local Storage. No Server Tracking.
                             </p>
                         </div>
-                        <div className="flex gap-4">
-                            <Link href="/dashboard/ca-mode">
-                                <Button variant="outline" className="border-indigo-500/50 text-indigo-400 hover:bg-indigo-950/30">
+                        <div className="flex flex-wrap gap-3 w-full md:w-auto">
+                            <Link href="/dashboard/ca-mode" className="w-full md:w-auto">
+                                <Button variant="outline" className="w-full md:w-auto border-indigo-500/50 text-indigo-400 hover:bg-indigo-950/30">
                                     <ShieldCheck className="h-4 w-4 mr-2" />
                                     CA Mode
                                 </Button>
                             </Link>
-                            <Button variant="outline" onClick={loadSampleData} className="border-gray-700 hover:bg-gray-800 text-gray-300">
+                            <Button variant="outline" onClick={loadSampleData} className="flex-1 md:flex-none border-gray-700 hover:bg-gray-800 text-gray-300">
                                 Load Sample Data
                             </Button>
-                            <Button variant="destructive" onClick={clearData}>
-                                Reset Data
+                            <Button variant="destructive" onClick={clearData} className="flex-1 md:flex-none">
+                                Reset
                             </Button>
-                            <Button onClick={downloadReport} className="bg-green-600 hover:bg-green-700">
+                            <Button onClick={downloadReport} className="w-full md:w-auto bg-green-600 hover:bg-green-700">
                                 <Download className="mr-2 h-4 w-4" />
-                                Download Compliance Zip
+                                Download Zip
                             </Button>
                         </div>
                     </div>

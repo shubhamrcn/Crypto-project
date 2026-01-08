@@ -66,7 +66,7 @@ export default function Home() {
         <ShootingStars />
       </div>
 
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-6 pointer-events-none">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4 md:p-6 pointer-events-none">
         <span className="text-white font-bold text-xl pointer-events-auto font-space-grotesk tracking-wider">DeFi Tax</span>
         <Link href="/dashboard" className="pointer-events-auto">
           <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-6 font-medium shadow-[0_0_15px_rgba(139,92,246,0.5)]">
