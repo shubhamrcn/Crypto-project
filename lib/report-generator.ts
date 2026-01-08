@@ -1,4 +1,3 @@
-
 import JSZip from 'jszip';
 import Papa from 'papaparse';
 import { calculateTaxReport } from './tax-engine';
@@ -9,14 +8,16 @@ export const generateAuditReport = async () => {
     const zip = new JSZip();
 
     // 1. Schedule VDA (CSV)
-    const csvData = report.breakdown.map(item => ({
+    const csvData = report.details.map(item => ({
         "Date of Transfer": new Date(item.date).toLocaleDateString(),
-        "Cost of Acquisition (INR)": item.buyPrice.toFixed(2),
-        "Consideration Received (INR)": item.sellPrice.toFixed(2),
-        "Income from VDA (INR)": item.taxableGain.toFixed(2),
-        "Tax @ 30%": item.tax.toFixed(2),
-        "Cess @ 4%": item.cess.toFixed(2),
-        "Remarks": item.description
+        "Asset": item.asset,
+        "Type": item.type,
+        "Cost of Acquisition (INR)": item.costBasis.toFixed(2),
+        "Consideration Received (INR)": item.saleValue.toFixed(2),
+        "Real Profit/Loss (INR)": item.profit.toFixed(2),
+        "Taxable Amount (INR)": item.taxableAmount.toFixed(2),
+        "Reasoning": item.reasoning.explanation,
+        "Section Reference": item.reasoning.sectionReference
     }));
 
     const csvString = Papa.unparse(csvData);
@@ -34,15 +35,15 @@ export const generateAuditReport = async () => {
     logContent += `Total Tax Liability:   ₹${report.finalTaxLiability.toFixed(2)}\n\n`;
 
     logContent += `DETAILED BREAKDOWN BY TRANSACTION:\n`;
-    report.breakdown.forEach((tx, idx) => {
-        logContent += `\n[${idx + 1}] Transaction ID: ${tx.id}\n`;
-        logContent += `    Asset: ${tx.asset} | Sold Amount: ${tx.amount}\n`;
-        logContent += `    Sell Price: ₹${tx.sellPrice} - Buy Price (FIFO Cost): ₹${tx.buyPrice} = Gain: ₹${tx.gain.toFixed(2)}\n`;
-        if (tx.gain < 0) {
+    report.details.forEach((tx, idx) => {
+        logContent += `\n[${idx + 1}] Transaction ID: ${tx.txId}\n`;
+        logContent += `    Asset: ${tx.asset} | Type: ${tx.type}\n`;
+        logContent += `    Sale Value: ₹${tx.saleValue.toFixed(2)} - Cost Basis: ₹${tx.costBasis.toFixed(2)} = PnL: ₹${tx.profit.toFixed(2)}\n`;
+        if (tx.profit < 0) {
             logContent += `    NOTE: LOSS IGNORED as per Section 115BBH (No Set-off allowed)\n`;
         }
-        logContent += `    Taxable Gain: ₹${tx.taxableGain.toFixed(2)}\n`;
-        logContent += `    Cess Calculation: ₹${tx.tax.toFixed(2)} * 4% = ₹${tx.cess.toFixed(2)}\n`;
+        logContent += `    Taxable Amount: ₹${tx.taxableAmount.toFixed(2)}\n`;
+        logContent += `    Legal Reasoning: ${tx.reasoning.explanation} (${tx.reasoning.sectionReference})\n`;
     });
 
     zip.file("Calculation_Log.txt", logContent);
@@ -60,7 +61,7 @@ export const generateAuditReport = async () => {
     mdContent += `- **Flat 30% Tax**: Applied on all positive gains.\n`;
     mdContent += `- **No Set-off of Losses**: Losses from one VDA are NOT set off against gains from another.\n`;
     mdContent += `- **No Carry Forward**: Losses are not carried forward to subsequent years.\n`;
-    mdContent += `- **Cost of Acquisition**: Only purchase cost is deducted (no expenses/fees allowed except transfer fees if applicable).\n\n`; // Simplified interpretation
+    mdContent += `- **Cost of Acquisition**: Only purchase cost is deducted (no expenses/fees allowed except transfer fees if applicable).\n\n`;
 
     mdContent += `## Disclaimer\n`;
     mdContent += `This is a computer-generated report based on the data provided. Please consult a Chartered Accountant for final filing.\n`;

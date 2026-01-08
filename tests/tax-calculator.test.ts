@@ -5,9 +5,13 @@ import { TaxConfig } from '../lib/tax-config';
 
 // Mock Config
 const MOCK_CONFIG: TaxConfig = {
+    fiscalYear: "2026-27",
     taxRate: 0.30,
     cess: 0.04,
-    allowLossSetOff: false // Crucial for India
+    tds: 0.01,
+    allowLossSetOff: false,
+    allowCarryForward: false,
+    defaultAssetClass: "VDA"
 };
 
 describe('India Crypto Tax Calculator (Section 115BBH)', () => {

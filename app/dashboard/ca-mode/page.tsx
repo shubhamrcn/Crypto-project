@@ -17,10 +17,32 @@ import {
 
 export default function CAModePage() {
     const [report, setReport] = useState<any>(null);
+    const [generating, setGenerating] = useState(false);
 
     useEffect(() => {
         calculateTaxReport().then(setReport);
     }, []);
+
+    const handleDownload = async () => {
+        setGenerating(true);
+        try {
+            const { generateAuditReport } = await import('@/lib/report-generator');
+            const blob = await generateAuditReport();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Tax_Audit_Report_${new Date().toISOString().split('T')[0]}.zip`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("Export failed", error);
+            alert("Failed to generate report. Please try again.");
+        } finally {
+            setGenerating(false);
+        }
+    };
 
     if (!report) return <div className="p-8 text-white">Generating Audit Trail...</div>;
 
@@ -39,10 +61,22 @@ export default function CAModePage() {
                             Strict Compliance View • Section 115BBH • FIFO Basis
                         </p>
                     </div>
-                    <Button variant="outline" className="border-gray-700 font-mono text-xs">
-                        <Download className="h-3 w-3 mr-2" />
-                        Export Audit Log
+                    <Button
+                        variant="outline"
+                        className="border-gray-700 font-mono text-xs"
+                        onClick={handleDownload}
+                        disabled={generating}
+                    >
+                        {generating ? (
+                            <span className="animate-pulse">Generating...</span>
+                        ) : (
+                            <>
+                                <Download className="h-3 w-3 mr-2" />
+                                Export Audit Log
+                            </>
+                        )}
                     </Button>
+
                 </div>
 
                 {/* Summary Table */}
