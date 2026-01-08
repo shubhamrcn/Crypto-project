@@ -48,5 +48,5 @@ export const validateTransaction = (data: unknown): { success: boolean, data?: T
     if (result.success) {
         return { success: true, data: result.data };
     }
-    return { success: false, error: result.error.errors.map(e => `${e.path}: ${e.message}`).join(', ') };
+    return { success: false, error: result.error.issues.map(e => `${e.path}: ${e.message}`).join(', ') };
 };
